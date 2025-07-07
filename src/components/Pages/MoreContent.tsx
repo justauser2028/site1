@@ -1,7 +1,14 @@
-import React from 'react';
-import { Headphones, BookOpen, Brain, Gift, Star, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Headphones, BookOpen, Brain, Gift, Star, ChevronRight, Calculator } from 'lucide-react';
+import SleepCalculator from './SleepCalculator';
 
 const MoreContent: React.FC = () => {
+  const [showSleepCalculator, setShowSleepCalculator] = useState(false);
+
+  if (showSleepCalculator) {
+    return <SleepCalculator onBack={() => setShowSleepCalculator(false)} />;
+  }
+
   const bonusContent = [
     {
       id: 'audio-guide',
@@ -41,7 +48,8 @@ const MoreContent: React.FC = () => {
     {
       title: 'Calculadora de Sono',
       description: 'Descubra seu horário ideal para dormir',
-      icon: '🕒'
+      icon: '🕒',
+      onClick: () => setShowSleepCalculator(true)
     },
     {
       title: 'Diário do Sono',
@@ -117,7 +125,10 @@ const MoreContent: React.FC = () => {
           {resources.map((resource, index) => (
             <div
               key={index}
-              className="bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-800 hover:border-slate-700 transition-colors cursor-pointer"
+              onClick={resource.onClick}
+              className={`bg-slate-900/50 backdrop-blur-sm rounded-xl p-4 border border-slate-800 hover:border-slate-700 transition-colors ${
+                resource.onClick ? 'cursor-pointer' : 'cursor-default'
+              }`}
             >
               <div className="text-2xl mb-2">{resource.icon}</div>
               <h3 className="text-white font-medium mb-1">{resource.title}</h3>
