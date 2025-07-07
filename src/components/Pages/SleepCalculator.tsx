@@ -72,13 +72,20 @@ const SleepCalculator: React.FC<SleepCalculatorProps> = ({ onBack }) => {
       });
     }
 
-    // Scroll suave para os resultados
+    // Scroll mais suave e posicionado para mostrar melhor os resultados
     setTimeout(() => {
       const resultsElement = document.getElementById('results-section');
       if (resultsElement) {
-        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const headerHeight = 80; // Altura do header fixo
+        const elementTop = resultsElement.offsetTop;
+        const offsetPosition = elementTop - headerHeight - 20; // 20px de margem extra
+
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
-    }, 100);
+    }, 150);
   };
 
   const formatTimeFromDate = (date: Date): string => {
@@ -322,53 +329,57 @@ const SleepCalculator: React.FC<SleepCalculatorProps> = ({ onBack }) => {
 
         {/* Results */}
         {results && (
-          <div id="results-section" className="bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-800 mb-8 scroll-mt-32">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <div id="results-section" className="bg-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-800 mb-8">
+            <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
               <Lightbulb className="w-5 h-5 text-emerald-400" />
               Seu Horário Ideal
             </h3>
             
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
-                    <Moon className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium">Ir para a cama</div>
-                    <div className="text-slate-400 text-sm">Hora de dormir</div>
-                  </div>
-                </div>
-                <div className="text-emerald-400 font-bold text-xl">{results.bedtime}</div>
-              </div>
-
-              <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
-                    <Sun className="w-6 h-6 text-blue-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium">Acordar</div>
-                    <div className="text-slate-400 text-sm">Hora de despertar</div>
-                  </div>
-                </div>
-                <div className="text-blue-400 font-bold text-xl">{results.wakeup}</div>
-              </div>
-
+              {/* Preparation Time Card */}
               <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <Clock className="w-5 h-5 text-amber-400 mt-0.5 flex-shrink-0" />
                   <div>
-                    <div className="text-amber-400 font-medium mb-1">💡 Dica Importante</div>
+                    <div className="text-amber-400 font-medium mb-1">💡 Hora de Preparação</div>
                     <div className="text-slate-300 text-sm">
                       Vá para a cama às <span className="font-bold text-amber-400">{results.preparationTime}</span> 
-                      para relaxar e adormecer naturalmente até às {results.bedtime}.
+                      para relaxar e adormecer naturalmente.
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="text-center pt-2">
+              {/* Sleep Time Card */}
+              <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-emerald-500/20 rounded-full flex items-center justify-center">
+                    <Moon className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-medium">Hora de Dormir</div>
+                    <div className="text-slate-400 text-sm">Início do sono</div>
+                  </div>
+                </div>
+                <div className="text-emerald-400 font-bold text-2xl">{results.bedtime}</div>
+              </div>
+
+              {/* Wake Time Card */}
+              <div className="flex items-center justify-between p-4 bg-slate-800/50 rounded-xl border border-slate-700">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center">
+                    <Sun className="w-6 h-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <div className="text-white font-medium">Hora de Acordar</div>
+                    <div className="text-slate-400 text-sm">Fim do sono</div>
+                  </div>
+                </div>
+                <div className="text-blue-400 font-bold text-2xl">{results.wakeup}</div>
+              </div>
+
+              {/* Summary */}
+              <div className="text-center pt-4 border-t border-slate-700">
                 <div className="text-slate-400 text-sm">
                   Total de sono: <span className="text-emerald-400 font-medium">{results.totalSleep}</span> • 
                   <span className="text-emerald-400 font-medium"> {cycles} ciclos completos</span>
