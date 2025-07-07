@@ -5,8 +5,20 @@ import SleepCalculator from './SleepCalculator';
 const MoreContent: React.FC = () => {
   const [showSleepCalculator, setShowSleepCalculator] = useState(false);
 
+  const handleOpenSleepCalculator = () => {
+    setShowSleepCalculator(true);
+    // Rolar para o topo da página
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleCloseSleepCalculator = () => {
+    setShowSleepCalculator(false);
+    // Rolar para o topo quando voltar para a página de mais conteúdos
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (showSleepCalculator) {
-    return <SleepCalculator onBack={() => setShowSleepCalculator(false)} />;
+    return <SleepCalculator onBack={handleCloseSleepCalculator} />;
   }
 
   const bonusContent = [
@@ -49,7 +61,7 @@ const MoreContent: React.FC = () => {
       title: 'Calculadora de Sono',
       description: 'Descubra seu horário ideal para dormir',
       icon: '🕒',
-      onClick: () => setShowSleepCalculator(true)
+      onClick: handleOpenSleepCalculator
     },
     {
       title: 'Diário do Sono',
