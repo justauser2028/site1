@@ -14,13 +14,23 @@ const BottomNav: React.FC<BottomNavProps> = ({ activeTab, onTabChange }) => {
     { id: 'settings', label: 'Configurações', icon: Settings }
   ];
 
+  const handleTabClick = (tabId: string) => {
+    // Primeiro rolar para o topo
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Depois mudar a aba (com um pequeno delay para garantir que o scroll aconteça primeiro)
+    setTimeout(() => {
+      onTabChange(tabId);
+    }, 50);
+  };
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-800 px-4 py-2 z-50">
       <div className="flex justify-around items-center max-w-md mx-auto">
         {tabs.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
-            onClick={() => onTabChange(id)}
+            onClick={() => handleTabClick(id)}
             className={`flex flex-col items-center p-2 rounded-lg transition-all duration-200 ${
               activeTab === id
                 ? 'text-emerald-400 bg-slate-800'
