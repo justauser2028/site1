@@ -15,7 +15,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ module, onSelect }) => {
 
   return (
     <div className="relative bg-slate-900 rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-emerald-500/20">
-      <div className="aspect-[4/3] relative">
+      <div className="aspect-[9/16] relative">
         <img
           src={module.coverImage}
           alt={module.title}
